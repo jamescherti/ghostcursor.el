@@ -159,7 +159,7 @@ A non-nil return value allows automatic activation."
 ;;;###autoload
 (define-minor-mode ghostcursor-local-mode
   "Minor mode to restore the cursor column after saving."
-  :lighter " RCol"
+  :lighter nil
   :group 'ghostcursor
   (if ghostcursor-local-mode
       (progn
