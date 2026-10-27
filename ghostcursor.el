@@ -108,8 +108,8 @@ A non-nil return value allows automatic activation."
       ;; variables reflect the indirect or base buffer shown in the window.
       (with-current-buffer win-buf
         (when (bound-and-true-p ghostcursor-local-mode)
-          ;; If a virtual overlay is already active from a previous save, preserve
-          ;; `ghostcursor--saved-column' before clearing state.
+          ;; If a virtual overlay is already active from a previous save,
+          ;; preserve `ghostcursor--saved-column' before clearing state.
           (let ((col (and (overlayp ghostcursor--virtual-overlay)
                           (eq (overlay-buffer ghostcursor--virtual-overlay)
                               (current-buffer))
@@ -160,7 +160,7 @@ A non-nil return value allows automatic activation."
 
 (defun ghostcursor--enable ()
   "Enable `ghostcursor-local-mode' in eligible buffers."
-  (when (and (not (minibufferp))
+  (when (and ghostcursor-buffer-predicate
              (funcall ghostcursor-buffer-predicate))
     (ghostcursor-local-mode 1)))
 
