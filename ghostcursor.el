@@ -84,30 +84,32 @@ A non-nil return value allows automatic activation."
 
 (defun ghostcursor--pre-command-handler ()
   "Materialize virtual spaces on self-insert or clear the virtual overlay."
-  (unwind-protect
-      (when (and (not buffer-read-only)
-                 (overlayp ghostcursor--virtual-overlay)
-                 (eq (overlay-buffer ghostcursor--virtual-overlay)
-                     (current-buffer))
-                 ghostcursor--saved-column
-                 (memq this-command '(self-insert-command
-                                      org-self-insert-command
-                                      quoted-insert)))
-        (let ((ov-start (overlay-start ghostcursor--virtual-overlay)))
-          (when (and ov-start (eq (point) ov-start) (eolp))
-            (move-to-column ghostcursor--saved-column t))))
-    ;; Clean up overlay and unregister the hook.
-    (ghostcursor--clear-virtual-state)))
+  (if (bound-and-true-p ghostcursor-local-mode)
+      (unwind-protect
+          (when (and (not buffer-read-only)
+                     (overlayp ghostcursor--virtual-overlay)
+                     (eq (overlay-buffer ghostcursor--virtual-overlay)
+                         (current-buffer))
+                     ghostcursor--saved-column
+                     (memq this-command '(self-insert-command
+                                          org-self-insert-command
+                                          quoted-insert)))
+            (let ((ov-start (overlay-start ghostcursor--virtual-overlay)))
+              (when (and ov-start (eq (point) ov-start) (eolp))
+                (move-to-column ghostcursor--saved-column t))))
+        ;; Clean up overlay and unregister the hook.
+        (ghostcursor--clear-virtual-state)))
+  (ghostcursor--clear-virtual-state))
 
 (defun ghostcursor--before-save-hook ()
   "Save the current visual column position before saving."
-  (let ((win-buf (window-buffer (selected-window))))
-    (when (eq (current-buffer) (or (buffer-base-buffer win-buf)
-                                   win-buf))
-      ;; Operate in `win-buf' so `point', `current-column', and buffer-local
-      ;; variables reflect the indirect or base buffer shown in the window.
-      (with-current-buffer win-buf
-        (when (bound-and-true-p ghostcursor-local-mode)
+  (when (bound-and-true-p ghostcursor-local-mode)
+    (let ((win-buf (window-buffer (selected-window))))
+      (when (eq (current-buffer) (or (buffer-base-buffer win-buf)
+                                     win-buf))
+        ;; Operate in `win-buf' so `point', `current-column', and buffer-local
+        ;; variables reflect the indirect or base buffer shown in the window.
+        (with-current-buffer win-buf
           ;; If a virtual overlay is already active from a previous save,
           ;; preserve `ghostcursor--saved-column' before clearing state.
           (let ((col (and (overlayp ghostcursor--virtual-overlay)
@@ -119,12 +121,12 @@ A non-nil return value allows automatic activation."
 
 (defun ghostcursor--after-save-hook ()
   "Restore the cursor to the previously saved column using a virtual overlay."
-  (let ((win-buf (window-buffer (selected-window))))
-    (when (eq (current-buffer)
-              (or (buffer-base-buffer win-buf) win-buf))
-      (with-current-buffer win-buf
-        (when (and (bound-and-true-p ghostcursor-local-mode)
-                   ghostcursor--saved-column)
+  (when (and (bound-and-true-p ghostcursor-local-mode)
+             ghostcursor--saved-column)
+    (let ((win-buf (window-buffer (selected-window))))
+      (when (eq (current-buffer)
+                (or (buffer-base-buffer win-buf) win-buf))
+        (with-current-buffer win-buf
           ;; nil for FORCE guarantees real spaces are NEVER inserted
           (move-to-column ghostcursor--saved-column)
           (let ((missing-spaces (- ghostcursor--saved-column
