@@ -1,6 +1,6 @@
 (source gnu)
 (source melpa)
 
-(package-file "ghostcursor.el.el")
+(package-file "ghostcursor.el")
 
 (development (depends-on "package-lint"))

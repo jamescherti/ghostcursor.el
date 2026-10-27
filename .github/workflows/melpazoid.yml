@@ -35,7 +35,7 @@ jobs:
       - name: Run
         env:
           LOCAL_REPO: "${{ github.workspace }}"
-          RECIPE: (ghostcursor.el :fetcher github :repo "jamescherti/ghostcursor.el.el" :branch "${{ github.ref_name }}" :files ("ghostcursor.el.el"))
+          RECIPE: (ghostcursor.el :fetcher github :repo "jamescherti/ghostcursor.el" :branch "${{ github.ref_name }}" :files ("ghostcursor.el"))
           # Set EXIST_OK to false (or remove it) if the package isn't on MELPA
           EXIST_OK: true
         run: echo $GITHUB_REF && make -C ~/melpazoid

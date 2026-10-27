@@ -31,7 +31,7 @@ INIT_PACKAGES="(progn \
 	(unless (package-installed-p pkg) \
 	  (package-install pkg))))"
 
-$(CASK_DIR): Cask ghostcursor.el.el
+$(CASK_DIR): Cask ghostcursor.el
 	cask install
 	@touch $(CASK_DIR)
 
@@ -49,12 +49,12 @@ compile: cask
 package-lint: cask
 	cask exec emacs -Q --batch -L . \
 		--eval ${INIT_PACKAGES} \
-		-f package-lint-batch-and-exit ghostcursor.el.el
+		-f package-lint-batch-and-exit ghostcursor.el
 
 .PHONY: test
 test: cask
 	if test -d tests; then \
 		cask exec emacs -Q --batch -L . -L tests \
-			-l tests/test-ghostcursor.el.el \
+			-l tests/test-ghostcursor.el \
 			-f ert-run-tests-batch-and-exit; \
 	fi
