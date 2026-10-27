@@ -6,13 +6,9 @@
 - Author: James Cherti <[https://www.jamescherti.com/](https://www.jamescherti.com/)>
 - License: GPL
 
-The **[ghostcursor.el](https://github.com/jamescherti/ghostcursor)** package provides a mode that records the exact cursor column position immediately before a buffer is saved and restores it afterward.
+The **[ghostcursor](https://github.com/jamescherti/ghostcursor)** package provides a mode that records the exact cursor column position immediately before a buffer is saved and restores it afterward.
 
-## The benefit of restoring the cursor column
-
-Save hooks (such as `delete-trailing-whitespace`, `eglot-format-buffer`, or the *apheleia* package) often truncate trailing spaces. This can force the cursor back to the last non-whitespace character.
-
-## Does this package add real spaces to restore the column?
+Why? Because save hooks (such as `delete-trailing-whitespace`, `eglot-format-buffer`, or the *apheleia* package) often truncate trailing spaces, which can force the cursor back to the last non-whitespace character.
 
 The ghostcursor package visually renders the cursor at the correct column without modifying the actual buffer text.
 
