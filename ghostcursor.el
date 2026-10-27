@@ -58,6 +58,19 @@ post-save processing is complete."
 (defvar-local ghostcursor--virtual-overlay nil
   "Overlay used to display virtual whitespace.")
 
+(defun ghostcursor--file-visiting-buffer-p ()
+  "Return non-nil if the current buffer or its base visits a file."
+  (buffer-file-name (or (buffer-base-buffer)
+                        (current-buffer))))
+
+(defcustom ghostcursor-buffer-predicate
+  #'ghostcursor--file-visiting-buffer-p
+  "Function determining whether Ghostcursor should be enabled in a buffer.
+The function is called without arguments in the current buffer.
+A non-nil return value allows automatic activation."
+  :type 'function
+  :group 'ghostcursor)
+
 (defun ghostcursor--clear-virtual-state ()
   "Clean up virtual overlay and hooks without modifying the buffer."
   ;; Check if the variable holds a valid overlay descriptor.
@@ -138,8 +151,9 @@ post-save processing is complete."
               (setq ghostcursor--saved-column nil))))))))
 
 (defun ghostcursor--enable ()
-  "Turn on `ghostcursor-local-mode' for the current buffer."
-  (unless (minibufferp)
+  "Enable `ghostcursor-local-mode' in eligible buffers."
+  (when (and (not (minibufferp))
+             (funcall ghostcursor-buffer-predicate))
     (ghostcursor-local-mode 1)))
 
 ;;;###autoload
@@ -157,7 +171,7 @@ post-save processing is complete."
         (add-hook 'after-save-hook #'ghostcursor--after-save-hook
                   (if (>= emacs-major-version 27)
                       ghostcursor-after-save-hook-depth
-                    nil)
+                    t)
                   t))
     ;; Delete overlay and detach pre-command listener when the mode is
     ;; disabled.
