@@ -9,39 +9,27 @@
 
 ;;; Commentary:
 
-;; The ghostcursor package provides a mode that records the exact cursor
-;; column position immediately before a buffer is saved and restores it
-;; afterward.
+;; The ghostcursor package provides a mode that records the exact cursor column
+;; position immediately before a buffer is saved and restores it afterward.
 ;;
-;; The problem: Save hooks (such as `delete-trailing-whitespace' or
-;; `eglot-format-buffer', apheleia) often truncate trailing spaces, which can
-;; force the cursor back to the last non-whitespace character and disrupt the
-;; editing workflow. This package ensures the cursor remains exactly where it
-;; was before the save operation.
+;; The benefit of restoring the cursor column: Save hooks (such as
+;; `delete-trailing-whitespace', `eglot-format-buffer', or the apheleia package)
+;; often truncate trailing spaces. This can force the cursor back to the last
+;; non-whitespace character.
 ;;
-;; This package doesn't modify your buffer on save. When restoring the cursor
-;; requires placing it beyond the current physical end of a line, inserting real
-;; whitespace would pollute the file with unwanted trailing spaces. To prevent
-;; this, the ghostcursor dynamically applies a virtual overlay, which
-;; visually renders the cursor at the correct column without modifying the
-;; actual buffer text.
-;;
-;; The virtual overlay is ephemeral. Once the user moves the cursor or triggers
-;; another command, the overlay is automatically cleared via `pre-command-hook'.
-;; If the user inserts a character while at the virtual column, the missing
-;; whitespace is materialized before the character is inserted.
+;; Does this package add real spaces to restore the column?
+;; --------------------------------------------------------
+;; The ghostcursor package visually renders the cursor at the correct column
+;; without modifying the actual buffer text.
 ;;
 ;; Features:
-;; - Maintains the exact cursor column on save without modifying the underlying
-;;   buffer text.
+;; ---------
+;; - Maintains the exact cursor column on save without modifying the
+;;   underlying buffer text.
 ;; - Uses virtual overlay strings to render the cursor position.
 ;; - Materializes whitespace only when the user types at the restored column.
 ;; - Overlays automatically clear on cursor movement or other commands.
 ;; - Operates correctly across base buffers and indirect buffers.
-;;
-;; Usage:
-;; Enable locally via `ghostcursor-local-mode', or globally via
-;; `ghostcursor-global-mode'.
 
 ;;; Code:
 
