@@ -28,7 +28,7 @@ To install *ghostcursor* with `use-package` and `:vc` (Emacs >= 30):
 
 ```emacs-lisp
 (use-package ghostcursor
-  :vc (:url "[https://github.com/jamescherti/ghostcursor.el](https://github.com/jamescherti/ghostcursor.el)"
+  :vc (:url "https://github.com/jamescherti/ghostcursor.el"
        :rev :newest)
   :config
   (ghostcursor-global-mode 1))
