@@ -76,7 +76,8 @@ A non-nil return value allows automatic activation."
   ;; Check if the variable holds a valid overlay descriptor.
   (when (overlayp ghostcursor--virtual-overlay)
     ;; Remove the overlay from the buffer display list to stop rendering it.
-    (delete-overlay ghostcursor--virtual-overlay)
+    (when (eq (overlay-buffer ghostcursor--virtual-overlay) (current-buffer))
+      (delete-overlay ghostcursor--virtual-overlay))
     (setq ghostcursor--virtual-overlay nil))
   (setq ghostcursor--saved-column nil)
   (remove-hook 'pre-command-hook #'ghostcursor--pre-command-handler t))
@@ -86,6 +87,8 @@ A non-nil return value allows automatic activation."
   (unwind-protect
       (when (and (not buffer-read-only)
                  (overlayp ghostcursor--virtual-overlay)
+                 (eq (overlay-buffer ghostcursor--virtual-overlay)
+                     (current-buffer))
                  ghostcursor--saved-column
                  (memq this-command '(self-insert-command
                                       org-self-insert-command
@@ -104,11 +107,15 @@ A non-nil return value allows automatic activation."
       ;; Operate in `win-buf' so `point', `current-column', and buffer-local
       ;; variables reflect the indirect or base buffer shown in the window.
       (with-current-buffer win-buf
-        ;; If a virtual overlay is already active from a previous save, preserve
-        ;; `ghostcursor--saved-column' before clearing state.
-        (let ((col ghostcursor--saved-column))
-          (ghostcursor--clear-virtual-state)
-          (setq ghostcursor--saved-column (or col (current-column))))))))
+        (when (bound-and-true-p ghostcursor-local-mode)
+          ;; If a virtual overlay is already active from a previous save, preserve
+          ;; `ghostcursor--saved-column' before clearing state.
+          (let ((col (and (overlayp ghostcursor--virtual-overlay)
+                          (eq (overlay-buffer ghostcursor--virtual-overlay)
+                              (current-buffer))
+                          ghostcursor--saved-column)))
+            (ghostcursor--clear-virtual-state)
+            (setq ghostcursor--saved-column (or col (current-column)))))))))
 
 (defun ghostcursor--after-save-hook ()
   "Restore the cursor to the previously saved column using a virtual overlay."
@@ -116,7 +123,8 @@ A non-nil return value allows automatic activation."
     (when (eq (current-buffer)
               (or (buffer-base-buffer win-buf) win-buf))
       (with-current-buffer win-buf
-        (when ghostcursor--saved-column
+        (when (and (bound-and-true-p ghostcursor-local-mode)
+                   ghostcursor--saved-column)
           ;; nil for FORCE guarantees real spaces are NEVER inserted
           (move-to-column ghostcursor--saved-column)
           (let ((missing-spaces (- ghostcursor--saved-column
