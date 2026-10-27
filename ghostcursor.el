@@ -14,10 +14,10 @@
 ;; afterward.
 ;;
 ;; The problem: Save hooks (such as `delete-trailing-whitespace' or
-;; `eglot-format-buffer') often truncate trailing spaces, which can force the
-;; cursor back to the last non-whitespace character and disrupt the editing
-;; workflow. This package ensures the cursor remains exactly where it was before
-;; the save operation.
+;; `eglot-format-buffer', apheleia) often truncate trailing spaces, which can
+;; force the cursor back to the last non-whitespace character and disrupt the
+;; editing workflow. This package ensures the cursor remains exactly where it
+;; was before the save operation.
 ;;
 ;; This package doesn't modify your buffer on save. When restoring the cursor
 ;; requires placing it beyond the current physical end of a line, inserting real
