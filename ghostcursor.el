@@ -150,9 +150,15 @@ post-save processing is complete."
   (if ghostcursor-local-mode
       (progn
         (add-hook 'before-save-hook #'ghostcursor--before-save-hook
-                  ghostcursor-before-save-hook-depth t)
+                  (if (>= emacs-major-version 27)
+                      ghostcursor-before-save-hook-depth
+                    nil)
+                  t)
         (add-hook 'after-save-hook #'ghostcursor--after-save-hook
-                  ghostcursor-after-save-hook-depth t))
+                  (if (>= emacs-major-version 27)
+                      ghostcursor-after-save-hook-depth
+                    nil)
+                  t))
     ;; Delete overlay and detach pre-command listener when the mode is
     ;; disabled.
     (ghostcursor--clear-virtual-state)
