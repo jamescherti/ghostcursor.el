@@ -1,14 +1,28 @@
 ;;; ghostcursor.el --- Restore cursor column after save hooks -*- lexical-binding: t; -*-
 
-;; Author: James Cherti
+;; Copyright (C) 2024-2026 James Cherti | https://www.jamescherti.com/contact/
+
+;; Author: James Cherti <https://www.jamescherti.com/contact/>
 ;; URL: https://github.com/jamescherti/jc-dev
-;; Package-Requires: ((emacs "24.1"))
+;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: convenience
 ;; Version: 0.0.9
 ;; SPDX-License-Identifier: GPL-3.0-or-later
 
-;;; Commentary:
+;; This file is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation; either version 2, or (at your option)
+;; any later version.
 
+;; This file is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
+
+;;; Commentary:
 ;; The ghostcursor package provides a mode that records the exact cursor column
 ;; position immediately before a buffer is saved and restores it afterward.
 ;;
