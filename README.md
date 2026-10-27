@@ -22,6 +22,18 @@ The ghostcursor package visually renders the cursor at the correct column withou
 
 ## Installation
 
+### Emacs: use-package and :vc (Built-in feature in Emacs version >= 30)
+
+To install *ghostcursor* with `use-package` and `:vc` (Emacs >= 30):
+
+```emacs-lisp
+(use-package ghostcursor
+  :vc (:url "[https://github.com/jamescherti/ghostcursor.el](https://github.com/jamescherti/ghostcursor.el)"
+       :rev :newest)
+  :config
+  (ghostcursor-global-mode 1))
+```
+
 ### Emacs: use-package and straight (Emacs version < 30)
 
 To install *ghostcursor* with `straight.el`:
@@ -35,18 +47,6 @@ To install *ghostcursor* with `straight.el`:
              :type git
              :host github
              :repo "jamescherti/ghostcursor.el")
-  :config
-  (ghostcursor-global-mode 1))
-```
-
-### Alternative installation: use-package and :vc (Built-in feature in Emacs version >= 30)
-
-To install *ghostcursor* with `use-package` and `:vc` (Emacs >= 30):
-
-```emacs-lisp
-(use-package ghostcursor
-  :vc (:url "[https://github.com/jamescherti/ghostcursor.el](https://github.com/jamescherti/ghostcursor.el)"
-       :rev :newest)
   :config
   (ghostcursor-global-mode 1))
 ```
