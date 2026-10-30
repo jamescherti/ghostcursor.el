@@ -12,6 +12,8 @@ Why? Because save hooks (such as `delete-trailing-whitespace`, `eglot-format-buf
 
 The ghostcursor package visually renders the cursor at the correct column without modifying the actual buffer text.
 
+**Note: If this project helps your workflow, please consider supporting the project by ⭐ starring it on GitHub and sharing it on your website, blog, Mastodon, Reddit, X, LinkedIn, or other social media platforms so other Emacs users can discover its benefits.**
+
 ## Features
 
 - Maintains the exact cursor column on save without modifying the underlying buffer text.
