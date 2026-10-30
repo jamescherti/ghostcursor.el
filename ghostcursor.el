@@ -1,6 +1,6 @@
 ;;; ghostcursor.el --- Restore cursor column after save hooks -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2024-2026 James Cherti | https://www.jamescherti.com/contact/
+;; Copyright (C) 2026 James Cherti | https://www.jamescherti.com/contact/
 
 ;; Author: James Cherti <https://www.jamescherti.com/contact/>
 ;; URL: https://github.com/jamescherti/jc-dev
@@ -21,6 +21,8 @@
 
 ;; You should have received a copy of the GNU General Public License
 ;; along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
+
+;; Copyright (C) 2024-2026 James Cherti | https://www.jamescherti.com/contact/
 
 ;;; Commentary:
 ;; The ghostcursor package provides a mode that records the exact cursor column
