@@ -22,22 +22,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python 3.11
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - uses: jamescherti/setup-emacs@master
+        with:
+          version: '29.4'
       - name: Install
         run: |
           python -m pip install --upgrade pip
-          sudo apt-get install emacs && emacs --version
+          sudo apt-get update
           git clone https://github.com/riscy/melpazoid.git ~/melpazoid
           pip install ~/melpazoid
           cat ~/melpazoid/melpazoid/melpazoid.el
       - name: Run
         env:
           LOCAL_REPO: "${{ github.workspace }}"
-          RECIPE: (ghostcursor :fetcher github :repo "jamescherti/ghostcursor.el" :branch "${{ github.ref_name }}" :files ("ghostcursor.el"))
-          # Set EXIST_OK to false (or remove it) if the package isn't on MELPA
-          EXIST_OK: true
+          RECIPE: (ghostcursor :fetcher github :repo "jamescherti/ghostcursor.el" :branch "${{ github.ref_name }}")
+          EXIST_OK: false
         run: echo $GITHUB_REF && make -C ~/melpazoid
