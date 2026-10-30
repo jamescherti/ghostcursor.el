@@ -1,5 +1,5 @@
 # ghostcursor.el
-![Build Status](https://github.com/jamescherti/ghostcursor.el/actions/workflows/melpazoid.yml/badge.svg)
+![Build Status](https://github.com/jamescherti/ghostcursor.el/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/github/license/jamescherti/ghostcursor.el)
 ![](https://jamescherti.com/misc/made-for-gnu-emacs.svg)
 
