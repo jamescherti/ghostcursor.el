@@ -4,7 +4,7 @@
 ![](https://jamescherti.com/misc/made-for-gnu-emacs.svg)
 
 - Author: James Cherti <[https://www.jamescherti.com/](https://www.jamescherti.com/)>
-- License: GPL
+- License: GPL 3.0 or later
 
 The **[ghostcursor](https://github.com/jamescherti/ghostcursor)** package provides a mode that records the exact cursor column position immediately before a buffer is saved and restores it afterward.
 
